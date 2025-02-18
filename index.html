@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Alkol Takip Uygulaması</title>
+    <title>Rüştü'nün Alkol Takipçisi</title>
     <link rel="manifest" href="manifest.json">
     <link rel="apple-touch-icon" href="icon.png">
     <meta name="theme-color" content="#222">
@@ -90,6 +90,10 @@
             transform: scale(1.05);
         }
 
+        .beverage:active {
+            transform: scale(0.95); /* Tıklama animasyonu - küçülme */
+        }
+
         .beverage img {
             max-width: 100%;
             height: auto;
@@ -109,6 +113,12 @@
             color: #eee;
             font-weight: 500;
             font-size: 1rem;
+        }
+        .beverage .alcohol-percent {
+            position: relative;
+            top: -10px; /* İçecek resminin üstüne konumlandır */
+            font-size: 0.8rem;
+            color: rgba(255, 255, 255, 0.5); /* Silüet rengi */
         }
 
 
@@ -232,7 +242,7 @@
 </head>
 <body>
     <div class="container">
-        <h1>Alkol Takip Uygulaması</h1>
+        <h1>Rüştü'nün Alkol Takipçisi</h1>
 
         <div class="date-selector">
             <label for="date">Tarih:</label>
@@ -241,36 +251,43 @@
 
         <div class="beverages">
             <div class="beverage" data-name="Bira" data-type="şişe" data-amount="50cl" data-alcohol="5">
+                <span class="alcohol-percent">~%5</span>
                 <img src="images/bira.png" alt="Bira">
                 <span class="drink-name">Bira</span>
                 <span>(50cl Şişe)</span>
             </div>
             <div class="beverage" data-name="Viski" data-type="duble" data-amount="6cl" data-alcohol="40">
+                 <span class="alcohol-percent">~%40</span>
                 <img src="images/viski.png" alt="Viski">
                 <span class="drink-name">Viski</span>
                 <span>(Duble - 6cl)</span>
             </div>
             <div class="beverage" data-name="Rakı" data-type="duble" data-amount="6cl" data-alcohol="45">
+                 <span class="alcohol-percent">~%45</span>
                 <img src="images/raki.png" alt="Rakı">
                 <span class="drink-name">Rakı</span>
                 <span>(Duble - 6cl)</span>
             </div>
             <div class="beverage" data-name="Zivania" data-type="shot" data-amount="3cl" data-alcohol="45">
+                 <span class="alcohol-percent">~%45</span>
                 <img src="images/zivania.png" alt="Zivania">
                 <span class="drink-name">Zivania</span>
                 <span>(Shot - 3cl)</span>
             </div>
             <div class="beverage" data-name="Şarap" data-type="kadeh" data-amount="15cl" data-alcohol="12">
+                 <span class="alcohol-percent">~%12</span>
                 <img src="images/sarap.png" alt="Şarap">
                 <span class="drink-name">Şarap</span>
                 <span>(Kadeh - 15cl)</span>
             </div>
             <div class="beverage" data-name="Cin" data-type="duble" data-amount="6cl" data-alcohol="40">
+                 <span class="alcohol-percent">~%40</span>
                 <img src="images/cin.png" alt="Cin">
                 <span class="drink-name">Cin</span>
                 <span>(Duble - 6cl)</span>
             </div>
             <div class="beverage" data-name="Votka" data-type="duble" data-amount="6cl" data-alcohol="40">
+                 <span class="alcohol-percent">~%40</span>
                 <img src="images/votka.png" alt="Votka">
                 <span class="drink-name">Votka</span>
                 <span>(Duble - 6cl)</span>
@@ -301,7 +318,7 @@
     </div>
 
     <div class="footer-info">
-        <p>© 2024 Kıbrıs Alkol Takip Uygulaması</p>
+        <p>© 2024 Rüştü'nün Alkol Takipçisi</p>
         <p>Sağlıklı ve bilinçli tüketim için geliştirilmiştir.</p>
     </div>
 
@@ -365,8 +382,11 @@
                     const alcoholDensity = 0.789;
                     const alcoholInGrams = alcoholInMl * alcoholDensity;
 
+                    totalAlcohol += alcoholInGrams; // Toplam alkolü anında güncelle
+                    updateTotalAlcoholDisplay(); // Arayüzü anında güncelle
+
                     selectedDrinks.push({ name, type, amountText, alcoholGrams: alcoholInGrams });
-                    updateTotalAlcoholDisplay();
+
                     updateDrinksList();
                     checkWHOLimit();
                 });
